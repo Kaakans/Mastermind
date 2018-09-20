@@ -1,81 +1,85 @@
-var path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
 
-var babelOptions = {
-  	presets: [
-      "es2015"
+const babelOptions = {
+    presets: [
+        "es2015"
     ],
-	plugins: [
-		['transform-react-jsx', { pragma: 'h' }]
-	]
+    plugins: [
+        ['transform-react-jsx', { pragma: 'h' }]
+    ]
 };
 
 module.exports = {
-	// entry file - starting point for the app
-	entry: './src',
+    mode: "development",
+    // entry file - starting point for the app
+    entry: './src',
 
-	// where to dump the output of a production build
-	output: {
-		path: path.join(__dirname, 'build'),
-		filename: 'bundle.js'
-	},
+    // where to dump the output of a production build
+    output: {
+        path: path.join(__dirname, 'build'),
+        filename: 'bundle.js'
+    },
 
-	module: {
-		rules: [
-			{
-				test: /\.(jpe?g|png|gif|svg)$/i,
-				loaders: [
-					'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
-					'image-webpack-loader?bypassOnDebug&optimizationLevel=7&interlaced=false'
-				]
-			},
-			{
-				test: /\.js(x?)$/,
-				loader: 'babel-loader',
-				options: babelOptions
-			},
-			{
-				test: /\.ts(x?)$/,
-				exclude: /node_modules/,
-				use: [
-					{
-						loader: 'babel-loader',
-						options: babelOptions
-					},
-					{
-						loader: 'ts-loader'
-					}
-				]
-			},
-			{
-				test: /\.less$/,
-				use: ExtractTextPlugin.extract({ 
-					fallback: 'style-loader',						
-					use: 'css-loader!less-loader'
-				})
-			},
-		]
-	},
+    module: {
+        rules: [
+            {
+                test: /\.less$/,
+                loader: 'less-loader' // compiles Less to CSS
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: [
+                    'file-loader'
+                ]
+            },
+            {
+                test: /\.(png|jpg|gif)$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192,
+                            fallback: 'file-loader'
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.js(x?)$/,
+                loader: 'babel-loader',
+                options: babelOptions
+            },
+            {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: babelOptions
+                    },
+                    {
+                        loader: 'ts-loader'
+                    }
+                ]
+            }
+        ]
+    },
 
-    plugins: [
-        new ExtractTextPlugin('styles.css'),
-    ],
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js']
+    },
 
-	resolve: {
-		extensions: ['.ts', '.tsx', '.js']
-	},
+    // enable Source Maps
+    devtool: 'inline-source-map',
 
-	// enable Source Maps
-	devtool: 'source-map',
+    devServer: {
+        // serve up any static files from src/
+        contentBase: __dirname,
 
-	devServer: {
-		// serve up any static files from src/
-		contentBase: __dirname,
+        // enable gzip compression:
+        compress: true,
 
-		// enable gzip compression:
-		compress: true,
-
-		// enable pushState() routing, as used by preact-router et al:
-		historyApiFallback: true
-	}
+        // enable pushState() routing, as used by preact-router et al:
+        historyApiFallback: true
+    }
 };
