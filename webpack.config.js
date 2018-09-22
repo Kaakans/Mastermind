@@ -2,17 +2,17 @@ const path = require('path');
 
 const babelOptions = {
     presets: [
-        "es2015"
+        "@babel/preset-env"
     ],
     plugins: [
-        ['transform-react-jsx', { pragma: 'h' }]
+        ['@babel/plugin-transform-react-jsx-source', { pragma: 'h' }]
     ]
 };
 
 module.exports = {
     mode: "development",
     // entry file - starting point for the app
-    entry: './src',
+    entry: './src/index.tsx',
 
     // where to dump the output of a production build
     output: {
@@ -24,7 +24,23 @@ module.exports = {
         rules: [
             {
                 test: /\.less$/,
-                loader: 'less-loader' // compiles Less to CSS
+                use: [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,

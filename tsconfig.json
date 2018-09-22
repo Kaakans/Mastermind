@@ -1,17 +1,21 @@
 {
-  "compilerOptions": {
-    "sourceMap": true,
-    "module": "es6",
-    "target": "es5",
-    "jsx": "react",
-    "jsxFactory": "h"
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
-  "exclude": [
-    "/node_modules/**/*.tsx",
-    "/node_modules/**/*.ts"
-  ] 
+    "compilerOptions": {
+        "outDir": "./build",
+        "module": "commonjs",
+        "target": "es5",
+        "jsx": "react",
+        "jsxFactory": "h",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "sourceMap": true
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/index.tsx"
+    ],
+    "exclude": [
+        "/node_modules/**/*.tsx",
+        "/node_modules/**/*.ts"
+    ]
 }
