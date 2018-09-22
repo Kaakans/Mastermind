@@ -1,5 +1,5 @@
 {
-  "name": "PreactTemplate",
+  "name": "preact-template",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "private": true,
   "devDependencies": {
     "@babel/core": "^7.1.0",
     "@babel/plugin-transform-react-jsx-source": "^7.0.0",

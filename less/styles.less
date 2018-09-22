@@ -1,5 +1,25 @@
-@primary: blue;
+@primary: violet;
 
 h1 {
     color: @primary;
+}
+
+.block-container {
+    display: flex;
+    flex-direction: row;
+
+    .block {
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        background-color: @primary;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        span {
+            text-align: center;        
+        }
+    }
 }
