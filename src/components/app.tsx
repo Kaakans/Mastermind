@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
-import Blocks from './blocks';
 import { Color, getAllColors } from "../enums/color";
 import ColorPicker from './color-picker';
+import Board from './board';
 
 const appStyle = {
     width: "100vw",
@@ -21,9 +21,13 @@ export default class App extends Component<any, any> {
     render() {
         return <div style={appStyle}>
             <h1>Welcome to Mastermind!</h1>
-            <button onClick={() => this.toggleColorPicker()}>Toggle</button>
-            {this.state.showColorPicker && this.renderColorPicker()}
+            {this.renderBoard()}
+            {this.renderColorPicker()}
         </div>;
+    }
+
+    renderBoard() {
+        return <Board rows={8}/>;
     }
 
     renderColorPicker() {
