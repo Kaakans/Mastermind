@@ -20,7 +20,6 @@ export interface IAppState {
 export default class App extends Component<any, any> {
     render() {
         return <div style={appStyle}>
-            <h1>Welcome to Mastermind!</h1>
             {this.renderBoard()}
             {this.renderColorPicker()}
         </div>;

@@ -1,33 +1,19 @@
 import { h, Component } from "preact";
-import { Color, getAllColors } from "../enums/color";
+
 import SolutionChecker from "../logic/solution-checker";
-import Row from "../logic/row";
-import { shallowClone } from "../utils/util";
-import Peg from "../logic/peg";
+import RowData from "../logic/row";
+import { getAllColors } from "../enums/color";
 import { MAX_COLUMNS } from "../logic/constants";
+
+import Row from "./row";
 
 const styles = {
     board: {
         display: "flex",
         flexDirection: "column-reverse",
         justifyContent: "flex-start",
-        alignItems: "center"
-    },
-
-    row: {
-        padding: "10px 10px",
-        display: "grid",
-        gridTemplate: "50px / 50px 50px 50px 50px",
-        columnGap: "10px",
-        justifyContent: "flex-start",
         alignItems: "center",
-        border: "1px solid black"
-    },
-
-    peg: {
-        width: "100%",
-        height: "100%",
-        border: "1px solid black"
+        overflowY: "auto"
     }
 }
 
@@ -36,8 +22,8 @@ export interface IBoardProps {
 }
 
 export default class Board extends Component<IBoardProps, any> {
-    private solution: Row;
-    private board: Array<Row>;
+    private solution: RowData;
+    private board: Array<RowData>;
     private solutionChecker: SolutionChecker;
 
     setRandomSolution() {
@@ -53,38 +39,21 @@ export default class Board extends Component<IBoardProps, any> {
         this.solutionChecker = new SolutionChecker();
         this.board = [];
         for(let i = 0; i < rows; i++) {
-            this.board.push(new Row());
+            this.board.push(new RowData());
         }
     }
 
-    render(props: IBoardProps) {
-        this.solution = new Row();
+    componentWillMount() {
+        this.solution = new RowData();
         this.setRandomSolution();
         this.reset(this.props.rows);
+    }
 
+    render() {
         return <div style={styles.board}>
-            {this.renderRows()}
+            <Row row={this.solution} isSolution={true}/>
+            <hr />
+            {this.board.map((r: RowData) => <Row row={r} isSolution={false}/>)}
         </div>;
-    }
-
-    renderRows() {
-        return this.board.map((r: Row) => this.renderRow(r));
-    }
-
-    renderRow(row: Row) {
-        return <div style={styles.row}>
-            {this.renderPegs(row)}
-        </div>;
-    }
-
-    renderPegs(row: Row) {
-        return row.getPegs().map((p: Peg) => this.renderPeg(p.getColor()));
-    }
-
-    renderPeg(c: Color) {
-        const peg = shallowClone(styles.peg);
-        peg.backgroundColor = c;
-
-        return <div style={peg}></div>;
     }
 }
