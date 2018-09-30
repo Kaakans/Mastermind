@@ -30,32 +30,48 @@ const styles = {
 export interface IRowProps {
     row: RowData;
     isSolution: boolean;
+    onSelectedCallback: () => void;
 }
 
 interface IRowState {
     showBlur: boolean;
+    showHighlight: boolean;
 }
 
 export default class Row extends Component<IRowProps, IRowState> {
     componentWillMount() {
-        this.setState({ showBlur: this.props.isSolution });
+        this.setState({ 
+            showBlur: this.props.isSolution,
+            showHighlight: false
+        });
     }
 
     render() {
-        let style = styles.row;
+        let style = shallowClone(styles.row);
         
         if (this.props.isSolution) {
-            style = shallowClone(styles.row);
             style.order = "1";
         }
-        return <div style={styles.row} onClick={() => this.toggleBlur()}>
+
+        if (this.state.showHighlight) {
+            style.border = "1px solid gold";
+        }
+
+        return <div style={style} onClick={() => this.toggleState()}>
             {this.state.showBlur ? this.renderBlur() : this.renderPegs() }
         </div>;
     }
 
-    toggleBlur() {
-        if (!this.props.isSolution) return;
-        this.setState({ showBlur: !this.state.showBlur });
+    toggleState() {
+        if (this.props.onSelectedCallback) {
+            this.props.onSelectedCallback();
+        }
+
+        if (this.props.isSolution) {
+            this.setState({ showBlur: !this.state.showBlur });
+        } else {
+            this.setState({ showHighlight: !this.state.showHighlight });
+        }
     }
 
     renderPegs() {

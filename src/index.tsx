@@ -6,7 +6,7 @@ declare var module: any;
 
 // this holds our rendered root element so we can re-render in response to HMR updates.
 let root: Element;
-let init = () => root = render(<App />, document.body, root);
+let init = () => root = render(<App rows={8}/>, document.body, root);
 
 init();
 
