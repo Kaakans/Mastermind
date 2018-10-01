@@ -30,20 +30,16 @@ const styles = {
 export interface IRowProps {
     row: RowData;
     isSolution: boolean;
-    onSelectedCallback: () => void;
+    isCurrent: boolean;
 }
 
 interface IRowState {
     showBlur: boolean;
-    showHighlight: boolean;
 }
 
 export default class Row extends Component<IRowProps, IRowState> {
     componentWillMount() {
-        this.setState({ 
-            showBlur: this.props.isSolution,
-            showHighlight: false
-        });
+        this.setState({ showBlur: this.props.isSolution });
     }
 
     render() {
@@ -53,7 +49,7 @@ export default class Row extends Component<IRowProps, IRowState> {
             style.order = "1";
         }
 
-        if (this.state.showHighlight) {
+        if (this.props.isCurrent) {
             style.border = "1px solid gold";
         }
 
@@ -63,14 +59,8 @@ export default class Row extends Component<IRowProps, IRowState> {
     }
 
     toggleState() {
-        if (this.props.onSelectedCallback) {
-            this.props.onSelectedCallback();
-        }
-
         if (this.props.isSolution) {
             this.setState({ showBlur: !this.state.showBlur });
-        } else {
-            this.setState({ showHighlight: !this.state.showHighlight });
         }
     }
 
