@@ -1,10 +1,7 @@
 import { h, Component } from 'preact';
 
 import { Color, getAllColors } from "../enums/color";
-import SolutionChecker from "../logic/solution-checker";
-import RowData from "../logic/row";
-import { MAX_COLUMNS } from "../logic/constants";
-
+import BoardData from "../logic/board";
 import Board from './board';
 import ColorPicker from './color-picker';
 
@@ -24,37 +21,13 @@ export interface IAppProps {
 
 export interface IAppState {
     showColorPicker: boolean
-    board: Array<RowData>;
+    board: BoardData;
 }
 
 export default class App extends Component<IAppProps, IAppState> {
-    private solution: RowData;
-    private solutionChecker: SolutionChecker;
-
-    setRandomSolution() {
-        const colors = getAllColors();
-
-        for(let i = 0; i < MAX_COLUMNS; i++) {
-            const rnd = Math.floor((Math.random() * colors.length));
-            this.solution.addPeg(colors[rnd]);
-        }
-    }
-
-    reset() {
-        this.solutionChecker = new SolutionChecker();
-        
-        const board = [];
-        for(let i = 0; i < this.props.rows; i++) {
-            board.push(new RowData());
-        }
-
-        this.setState({ board: board });
-    }
 
     componentWillMount() {
-        this.solution = new RowData();
-        this.setRandomSolution();
-        this.reset();
+        this.setState({ board: new BoardData(this.props.rows) });
     }
 
     render() {
@@ -65,10 +38,22 @@ export default class App extends Component<IAppProps, IAppState> {
     }
 
     renderBoard() {
-        return <Board rows={this.state.board} solution={this.solution} />;
+        return <Board board={this.state.board} />;
+    }
+
+    checkVictoryCondition() {
+        if (this.state.board.isSolved()) {
+            alert("Victory!");
+        }
+    }
+
+    onColorSelected(color: Color) {
+        this.state.board.addPeg(color);
+        this.state.board.checkSolution();
+        this.setState({ board: this.state.board }, this.checkVictoryCondition);
     }
 
     renderColorPicker() {
-        return <ColorPicker colors={getAllColors()} onColorSelected={(color: Color) => alert(`Selected ${color}`)} />;
+        return <ColorPicker colors={getAllColors()} onColorSelected={(color: Color) => this.onColorSelected(color)} />;
     }
 }

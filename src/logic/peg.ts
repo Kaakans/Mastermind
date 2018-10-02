@@ -11,7 +11,7 @@ export default class Peg {
     }
     
     getColor() {
-        return this.color;
+        return this.color ? this.color : "white";
     }
     
     setColor(color: Color) {

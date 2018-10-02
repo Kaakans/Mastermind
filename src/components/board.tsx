@@ -1,4 +1,5 @@
 import { h, Component } from "preact";
+import BoardData from "../logic/board";
 import RowData from "../logic/row";
 import Row from "./row";
 
@@ -13,16 +14,15 @@ const styles = {
 }
 
 export interface IBoardProps {
-    rows: Array<RowData>;
-    solution: RowData;
+    board: BoardData;
 }
 
 export default class Board extends Component<IBoardProps, any> {
     render() {
         return <div style={styles.board}>
-            <Row row={this.props.solution} isSolution={true} isCurrent={false} />
+            <Row row={this.props.board.getSolution()} isSolution={true} isCurrent={false} />
             <hr />
-            {this.props.rows.map((r: RowData, i: number, a: Array<RowData>) => {
+            {this.props.board.getRows().map((r: RowData, i: number, a: Array<RowData>) => {
                 const isCurrentRow = !r.isFull() && (!a[i-1] || a[i-1] && a[i-1].isFull());
                 return <Row row={r} isSolution={false} isCurrent={isCurrentRow} />;
             })}
