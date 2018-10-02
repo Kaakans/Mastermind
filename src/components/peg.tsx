@@ -9,12 +9,14 @@ const styles = {
         height: "100%",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        borderRadius: "50%"
     },
 
     inner: {
         width: "80%",
         height: "80%",
+        borderRadius: "50%"
     }
 }
 
@@ -34,8 +36,6 @@ export default class Peg extends Component<IPegProps, any> {
     }
 
     getBorderColor() {
-        console.log("State: " + this.props.peg.getState());
-
         if (this.props.peg.getState() === PegState.CORRECT) {
             return "green";
         }

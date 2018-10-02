@@ -44,6 +44,8 @@ export default class App extends Component<IAppProps, IAppState> {
     checkVictoryCondition() {
         if (this.state.board.isSolved()) {
             alert("Victory!");
+        } else if (this.state.board.isLost()) {
+            alert("Lost!");
         }
     }
 
