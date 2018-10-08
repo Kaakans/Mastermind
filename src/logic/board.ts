@@ -54,4 +54,11 @@ export default class Board {
     isLost() {
         return this.rows.every((r: Row) => r.isFull() && !r.isCorrect());
     }
+
+    clearCurrentRow() {
+        const currentRow = this.rows.find((r: Row) => !r.isFull());
+        if (currentRow) {
+            currentRow.clear();
+        }
+    }
 } 

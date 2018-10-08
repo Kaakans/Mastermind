@@ -6,7 +6,7 @@ import { shallowClone } from "../utils/util";
 const styles = {
     row: {
         display: "grid",
-        gridTemplate: "20vw / 20vw 20vw 20vw 20vw",
+        gridTemplate: "80px / 80px 80px 80px 80px",
         justifyContent: "flex-start",
         alignItems: "center",
         border: "1px solid black",

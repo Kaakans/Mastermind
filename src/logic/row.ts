@@ -6,6 +6,10 @@ export default class Row {
     private pegs: Array<Peg>;
 
     constructor() {
+        this.reset();
+    }
+    
+    reset() {
         this.pegs = [ new Peg(), new Peg(), new Peg(), new Peg() ];
     }
 
@@ -46,5 +50,9 @@ export default class Row {
 
     isCorrect() {
         return this.pegs.every((p: Peg) => p.getState() === PegState.CORRECT);
+    }
+
+    clear() {
+        this.reset();
     }
 }

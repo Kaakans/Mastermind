@@ -3,18 +3,6 @@ import { Color } from '../enums/color';
 import { shallowClone as clone } from "../utils/util";
 
 const styles = {
-    // pickerContainer: {
-    //     padding: "20px",
-    //     borderRadius: "10px",
-    //     backgroundColor: "#434343",
-    //     display: "inline-grid",
-    //     gridTemplateColumns: "100px 100px 100px 100px 100px 100px",
-    //     gridTemplateRows: "100px",
-    //     gridGap: "20px 20px",
-    //     justifyContent: "center",
-    //     alignItems: "center"
-    // },
-
     pickerContainer: {
         width: "90vw",
         height: "10vh",
@@ -39,12 +27,16 @@ const styles = {
 export interface IColorPickerProps {
     colors: Array<Color>;
     onColorSelected: (selectedColor: Color) => void;
+    clearCallback: () => void;
+    resetCallback: () => void;
 }
 
 export default class ColorPicker extends Component<IColorPickerProps, any> {
     render() {
         return <div style={styles.pickerContainer}>
             {this.props.colors.map(c => this.renderColor(c))}
+            {this.renderButton("Clear", this.props.clearCallback)}
+            {this.renderButton("Restart", this.props.resetCallback)}
         </div>
     }
 
@@ -53,5 +45,9 @@ export default class ColorPicker extends Component<IColorPickerProps, any> {
         colorButtonExtended.backgroundColor = color;
 
         return <div style={colorButtonExtended} onClick={() => this.props.onColorSelected(color)}></div>;
+    }
+
+    renderButton(buttonText: string, callback: any) {
+        return <button onClick={callback}>{buttonText}</button>;
     }
 }

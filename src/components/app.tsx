@@ -26,8 +26,12 @@ export interface IAppState {
 
 export default class App extends Component<IAppProps, IAppState> {
 
-    componentWillMount() {
+    resetBoard() {
         this.setState({ board: new BoardData(this.props.rows) });
+    }
+    
+    componentWillMount() {
+        this.resetBoard();
     }
 
     render() {
@@ -55,7 +59,16 @@ export default class App extends Component<IAppProps, IAppState> {
         this.setState({ board: this.state.board }, this.checkVictoryCondition);
     }
 
+    clearCurrentRow() {
+        this.state.board.clearCurrentRow();
+        this.setState({ board: this.state.board });
+    }
+
     renderColorPicker() {
-        return <ColorPicker colors={getAllColors()} onColorSelected={(color: Color) => this.onColorSelected(color)} />;
+        return <ColorPicker 
+            colors={getAllColors()} 
+            onColorSelected={(c: Color) => this.onColorSelected(c)} 
+            clearCallback={() => this.clearCurrentRow()}
+            resetCallback={() => this.resetBoard()} />;
     }
 }
