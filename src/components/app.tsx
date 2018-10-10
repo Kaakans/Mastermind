@@ -3,16 +3,23 @@ import { h, Component } from 'preact';
 import { Color, getAllColors } from "../enums/color";
 import BoardData from "../logic/board";
 import Board from './board';
-import ColorPicker from './color-picker';
+import Controls from './constrols';
+import Modal from './modal';
 
 const styles = {
-    width: "100vw",
-    height: "100vh",
-    backgroundColor: "#eee",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "center"
+    app: {
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "#eee",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        alignItems: "center"
+    },
+
+    appContainer: {
+        width: "320px"
+    }
 }
 
 export interface IAppProps {
@@ -22,6 +29,7 @@ export interface IAppProps {
 export interface IAppState {
     showColorPicker: boolean
     board: BoardData;
+    showModal: boolean;
 }
 
 export default class App extends Component<IAppProps, IAppState> {
@@ -35,14 +43,17 @@ export default class App extends Component<IAppProps, IAppState> {
     }
 
     render() {
-        return <div style={styles}>
-            {this.renderBoard()}
-            {this.renderColorPicker()}
+        return <div style={styles.app}>
+            <div style={styles.appContainer} >
+                <Board board={this.state.board} />
+                <Controls 
+                    colors={getAllColors()} 
+                    onColorSelected={(c: Color) => this.onColorSelected(c)} 
+                    clearCallback={() => this.clearCurrentRow()}
+                    resetCallback={() => this.showModal()} />
+            </div>
+            {this.state.showModal && this.renderModal()}
         </div>;
-    }
-
-    renderBoard() {
-        return <Board board={this.state.board} />;
     }
 
     checkVictoryCondition() {
@@ -60,15 +71,26 @@ export default class App extends Component<IAppProps, IAppState> {
     }
 
     clearCurrentRow() {
-        this.state.board.clearCurrentRow();
-        this.setState({ board: this.state.board });
+
+        // this.setState({ board: this.state.board });
+        // this.state.board.clearCurrentRow();
     }
 
-    renderColorPicker() {
-        return <ColorPicker 
-            colors={getAllColors()} 
-            onColorSelected={(c: Color) => this.onColorSelected(c)} 
-            clearCallback={() => this.clearCurrentRow()}
-            resetCallback={() => this.resetBoard()} />;
+    showModal() {
+        this.setState({ showModal: true });
+    }
+
+    renderModal() {
+        const onHideModal = (callback?: () => void) => {
+            if (callback) callback();
+            this.setState({ showModal: false });
+        }
+
+        return <Modal 
+            title={"Reset board"} 
+            text={"Are you sure you want to reset the board?"} 
+            onSuccess={() => onHideModal(() => this.resetBoard())} 
+            onError={() => onHideModal()} 
+        />;
     }
 }
