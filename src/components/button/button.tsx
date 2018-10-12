@@ -20,7 +20,7 @@ export default class Button extends Component<IButtonProps, any> {
         s.backgroundColor = this.props.type ? this.props.type : "";
         this.setSize(s);
 
-        return <button style={s} class={this.props.class} onClick={this.props.onClick}>{this.props.text}</button>;
+        return <button style={s} class={this.props.class} onClick={() => this.props.onClick()}>{this.props.text}</button>;
     }
 
     setSize(style: any) {

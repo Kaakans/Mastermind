@@ -1,17 +1,8 @@
 import { h, Component } from "preact";
-import BoardData from "../logic/board";
-import RowData from "../logic/row";
-import Row from "./row";
-
-const styles = {
-    board: {
-        display: "flex",
-        flexDirection: "column-reverse",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        overflowY: "auto"
-    }
-}
+import BoardData from "../../logic/board";
+import RowData from "../../logic/row";
+import Row from "../row/row";
+import { styles } from "./style";
 
 export interface IBoardProps {
     board: BoardData;

@@ -1,5 +1,5 @@
 import { h, render } from 'preact';
-import App from './components/app';
+import App from './components/app/app';
 import "../less/styles.less";
 
 declare var module: any;
@@ -11,4 +11,4 @@ let init = () => root = render(<App rows={8}/>, document.body, root);
 init();
 
 // If this is webpack-dev-server, set up HMR :)
-if (module.hot) module.hot.accept('./components/app', init);
+if (module.hot) module.hot.accept('./components/app/app', init);

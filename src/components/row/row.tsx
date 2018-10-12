@@ -1,30 +1,8 @@
 import { h, Component } from "preact";
-import RowData from "../logic/row";
-import Peg from "./peg";
-import { shallowClone } from "../utils/util";
-
-const styles = {
-    row: {
-        width: "100%",
-        display: "grid",
-        gridTemplate: "80px / 25% 25% 25% 25%",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        border: "1px solid black",
-        order: ""
-    },
-
-    blur: {
-        width: "100%",
-        height: "100%",
-        gridArea: "1 / 1 / 2 / 5",
-        color: "white",
-        backgroundColor: "black",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-    }
-}
+import RowData from "../../logic/row";
+import Peg from "../peg/peg";
+import { shallowClone } from "../../utils/util";
+import { styles } from "./style";
 
 export interface IRowProps {
     row: RowData;

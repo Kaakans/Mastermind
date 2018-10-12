@@ -1,24 +1,8 @@
 import { h, Component } from "preact";
-import PegData from "../logic/peg";
-import { shallowClone } from "../utils/util";
-import { PegState } from "../enums/peg-state";
-
-const styles = {
-    peg: {
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: "50%"
-    },
-
-    inner: {
-        width: "80%",
-        height: "80%",
-        borderRadius: "50%"
-    }
-}
+import PegData from "../../logic/peg";
+import { shallowClone } from "../../utils/util";
+import { PegState } from "../../enums/peg-state";
+import { styles } from "./style";
 
 export interface IPegProps {
     peg: PegData

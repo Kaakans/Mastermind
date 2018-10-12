@@ -1,26 +1,11 @@
 import { h, Component } from 'preact';
 
-import { Color, getAllColors } from "../enums/color";
-import BoardData from "../logic/board";
-import Board from './board';
-import Controls from './constrols';
-import Modal from './modal';
-
-const styles = {
-    app: {
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "#eee",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        alignItems: "center"
-    },
-
-    appContainer: {
-        width: "320px"
-    }
-}
+import { Color, getAllColors } from "../../enums/color";
+import BoardData from "../../logic/board";
+import Board from '../board/board';
+import Controls from '../controls/controls';
+import Modal from '../modal/modal';
+import { styles } from "./style";
 
 export interface IAppProps {
     rows: number
@@ -81,16 +66,20 @@ export default class App extends Component<IAppProps, IAppState> {
     }
 
     renderModal() {
-        const onHideModal = (callback?: () => void) => {
-            if (callback) callback();
+        const onS = () => {
+            this.resetBoard();
+            this.setState({ showModal: false });
+        }
+
+        const onHideModal = () => {
             this.setState({ showModal: false });
         }
 
         return <Modal 
             title={"Reset board"} 
             text={"Are you sure you want to reset the board?"} 
-            onSuccess={() => onHideModal(() => this.resetBoard())} 
-            onError={() => onHideModal()} 
+            onConfirm={() => onS()} 
+            onNo={() => onHideModal()} 
         />;
     }
 }

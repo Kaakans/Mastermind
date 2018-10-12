@@ -1,3 +1,4 @@
 export const style = {
-    backgroundColor: "red"
+    backgroundColor: "red",
+    zIndex: "inherit"
 }
